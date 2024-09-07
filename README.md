@@ -64,7 +64,7 @@ Run the script with the following command:
   ```bash
   ./recon_ninja.sh example.com -c
   ```
- - Perform Gxss check on collected parameters from main domains:
+ - Perform Gxss check on collected parameters from main domain:
   ```bash
   ./recon_ninja.sh example.com -u -g
   ```
