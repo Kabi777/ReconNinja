@@ -15,5 +15,5 @@ KABI_777 is a powerful reconnaissance tool designed for security professionals a
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/KABI_777.git
-   cd KABI_777￼Enter
+   git clone https://github.com/kabi777/Torru.git
+   
