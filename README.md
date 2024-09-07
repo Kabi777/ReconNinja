@@ -1,5 +1,5 @@
 
-# ReconNinja RECON TOOL
+# ReconNinja TOOL
 
 ReconNinja is a reconnaissance tool designed to perform various subdomain and URL discovery tasks efficiently. It integrates several tools like Sublist3r, Subfinder, Assetfinder, HTTPX, and Gxss for a comprehensive reconnaissance process.
 
