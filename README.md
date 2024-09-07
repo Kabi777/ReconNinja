@@ -1,75 +1,82 @@
 
-# ReconNinja TOOL
+# ReconNinja Tool
 
-ReconNinja is a reconnaissance tool designed to perform various subdomain and URL discovery tasks efficiently. It integrates several tools like Sublist3r, Subfinder, Assetfinder, HTTPX, and Gxss for a comprehensive reconnaissance process.
+ReconNinja is a powerful reconnaissance tool designed for penetration testers and security researchers. It automates the collection of subdomains, URLs, and parameters from a target domain, helping users to identify potential vulnerabilities.
+
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
-
-- Discover subdomains using Sublist3r, Subfinder, and Assetfinder.
-- Check HTTP status codes of discovered subdomains.
-- Fetch all URLs for the main domain using the `-u` flag.
-- Check URLs from domains in the `httpx_200.txt` file using the `-c` flag.
-- Filter for parameters and JavaScript files.
-- Check for reflected parameters using Gxss.
+- Collects subdomains using `Sublist3r`, `Subfinder`, and `Assetfinder`.
+- Checks HTTP status codes with `httpx`.
+- Fetches URLs using `gau` and `waybackurls`.
+- Performs Gxss checks on collected parameters.
+- Outputs results into organized directories for easy access.
 
 ## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ReconNinja.git
+   cd ReconNinja
+   ```
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/Torru.git
-   ```
-2. Change to the project directory:
-   ```bash
-   cd Torru
-   ```
+2. Ensure you have the following tools installed:
+   - `Sublist3r`
+   - `Subfinder`
+   - `Assetfinder`
+   - `httpx`
+   - `gau`
+   - `waybackurls`
+   - `Gxss`
+
 3. Make the script executable:
    ```bash
-   chmod +x ReconNinja.sh
+   chmod +x recon_ninja.sh
    ```
 
 ## Usage
-
-To use the KABI_777 recon tool, run the following command:
-
+Run the script with the following command:
 ```bash
-./ReconNinja.sh <domain> [-u] [-c]
+./recon_ninja.sh <domain> [-u] [-c] [-g]
 ```
 
 ### Arguments
-
 - `<domain>`: The target domain to perform reconnaissance on.
-- `-u`: Fetch and filter all URLs for the main domain using gau and waybackurls.
-- `-c`: Check all URLs from `httpx_200.txt` using gau and waybackurls.
+- `-u`: Fetch main domain URLs and filter all URLs using `gau` and `waybackurls`.
+- `-c`: Check all domains from `httpx_200.txt` with `gau` and `waybackurls`.
+- `-g`: Perform Gxss check on parameters collected.
 
-### Examples
-
+## Examples
 - Run basic reconnaissance:
   ```bash
-  ./ReconNinja.sh example.com
+  ./recon_ninja.sh example.com
   ```
-- Run reconnaissance and fetch URLs:
+- Run reconnaissance and fetch URLs for the main domain:
   ```bash
-  ./ReconNinja.sh example.com -u
+  ./recon_ninja.sh example.com -u
   ```
--  Check URLs from domains in the `httpx_200.txt` file.:
+- Fetch URLs for all domains from `httpx_200.txt`:
   ```bash
-  ./ReconNinja.sh example.com -c
+  ./recon_ninja.sh example.com -c
   ```
-- Run reconnaissance, fetch URLs, and check them:
+- Perform Gxss check on collected parameters:
   ```bash
-  ./ReconNinja.sh example.com -u -c
+  ./recon_ninja.sh example.com -g
   ```
 
-## Output
+## Contributing
+Contributions are welcome! Please create an issue or submit a pull request for any improvements or new features.
 
-Results are saved in a directory named `<domain>_recon_results`, with URLs saved in a separate `urls` subdirectory. 
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-### URL Results
+```
 
-When using the `-u` flag, all URLs for the main domain will be fetched and saved in the `urls/main_Domain_urls.txt` file. Additionally, parameters and JavaScript files will be filtered and saved in separate files:
-
-- All URLs: `urls/main_Domain_urls.txt`
-- Parameters: `urls/parameters.txt`
-- JavaScript Files: `urls/js_files.txt`
-- Reflected Parameters: `urls/reflected_parameters.txt`
-
+### Customization
+- Replace `yourusername` in the Git clone command with your actual GitHub username.
+- You can add any additional instructions or features you may want to highlight.
