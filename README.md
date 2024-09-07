@@ -8,7 +8,7 @@ ReconNinja is a reconnaissance tool designed to perform various subdomain and UR
 - Discover subdomains using Sublist3r, Subfinder, and Assetfinder.
 - Check HTTP status codes of discovered subdomains.
 - Fetch all URLs for the main domain using the `-u` flag.
-- Check URLs from the `httpx_200.txt` file using the `-c` fla
+- Check URLs from domains in the `httpx_200.txt` file using the `-c` flag.
 - Filter for parameters and JavaScript files.
 - Check for reflected parameters using Gxss.
 
