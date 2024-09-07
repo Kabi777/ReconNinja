@@ -21,23 +21,37 @@ echo -e "${RED}*********************************************${RESET}"
 
 # Check if the target domain is provided
 if [ $# -eq 0 ]; then
-    echo -e "${RED}Usage: $0 <domain> [-u] [-c]${RESET}"
+    echo -e "${RED}Usage: $0 <domain> [-u] [-c] [-g]${RESET}"
     echo ""
     echo -e "${GREEN}Arguments:${RESET}"
     echo "  <domain>  The target domain to perform reconnaissance on."
-    echo "  -u        Fetch main domain urls and filter all URLs using gau and waybackurls."
-    echo "  -c        Check all domain from httpx_200.txt with gau and waybackurls."
+    echo "  -u        Fetch main domain URLs and filter all URLs using gau and waybackurls."
+    echo "  -c        Check all domains from httpx_200.txt with gau and waybackurls."
+    echo "  -g        Perform Gxss check on parameters collected."
     echo ""
     echo -e "${CYAN}Examples:${RESET}"
     echo "  $0 example.com            # Run basic reconnaissance."
-    echo "  $0 example.com -u         # Run reconnaissance and fetch urls for main domain"
-    echo "  $0 example.com -c         # fetch URLs for all domains from httpx_200.txt."
+    echo "  $0 example.com -u         # Run reconnaissance and fetch URLs for the main domain."
+    echo "  $0 example.com -c         # Fetch URLs for all domains from httpx_200.txt."
+    echo "  $0 example.com -g         # Perform Gxss check on collected parameters."
     exit 1
 fi
 
-TARGET_DOMAIN=$1
-URL_FLAG=$2
-CHECK_FLAG=$3
+URL_FLAG=""
+CHECK_FLAG=""
+GXSS_FLAG=""
+TARGET_DOMAIN=""
+
+# Loop through arguments to catch flags
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -u) URL_FLAG="-u";;
+    -c) CHECK_FLAG="-c";;
+    -g) GXSS_FLAG="-g";;
+    *) TARGET_DOMAIN=$1;;
+  esac
+  shift
+done
 
 # Create a directory for the results using the domain name
 mkdir -p "${TARGET_DOMAIN}_recon_results"
@@ -48,11 +62,11 @@ mkdir -p "urls"
 
 # Step 1: Sublist3r
 echo -e "${GREEN}[*] Running Sublist3r...${RESET}"
-sublist3r -d "$TARGET_DOMAIN" -o sublist3r_results.txt
+sublist3r -d "$TARGET_DOMAIN" > sublist3r_results.txt
 
 # Step 2: Subfinder
 echo -e "${GREEN}[*] Running Subfinder...${RESET}"
-subfinder -d "$TARGET_DOMAIN" -o subfinder_results.txt
+subfinder -d "$TARGET_DOMAIN" > subfinder_results.txt
 
 # Step 3: Assetfinder
 echo -e "${GREEN}[*] Running Assetfinder...${RESET}"
@@ -60,12 +74,11 @@ assetfinder --subs-only "$TARGET_DOMAIN" > assetfinder_results.txt
 
 # Step 4: Combine results and filter unique entries
 echo -e "${GREEN}[*] Combining results...${RESET}"
-cat sublist3r_results.txt subfinder_results.txt assetfinder_results.txt | \
-sort -u > all_unique_subdomains.txt
+cat sublist3r_results.txt subfinder_results.txt assetfinder_results.txt | sort -u > all_unique_subdomains.txt
 
 # Step 5: Use httpx to check HTTP status and get titles
 echo -e "${GREEN}[*] Checking HTTP status...${RESET}"
-httpx -l all_unique_subdomains.txt -o httpx_results.txt -status-code
+httpx -l all_unique_subdomains.txt > httpx_results.txt -status-code
 
 # Step 6: Separate results into a file for 200 status codes
 echo -e "${GREEN}[*] Saving 200 status codes...${RESET}"
@@ -73,33 +86,37 @@ grep "200" httpx_results.txt | cut -d ' ' -f 1 > httpx_200.txt
 
 # Step 7: Use Subzy for account takeover checks
 echo -e "${GREEN}[*] Running Subzy for account takeover checks...${RESET}"
-subzy run --targets all_unique_subdomains.txt | tee subzy_results.txt
+subzy run --targets all_unique_subdomains.txt > subzy_results.txt
 
 # Step 8: Check for URLs if the flag is provided
 if [ "$URL_FLAG" == "-u" ]; then
     echo -e "${GREEN}[*] Fetching all URLs using gau and waybackurls...${RESET}"
 
     # Use gau to get all URLs
-    gau "$TARGET_DOMAIN" | waybackurls "$TARGET_DOMAIN" | sort -u >urls/main_Domain_urls.txt
+    gau "$TARGET_DOMAIN" | waybackurls "$TARGET_DOMAIN" | sort -u > urls/main_Domain_urls.txt
 
     # Separate URLs into different files
     echo -e "${GREEN}[*] Separating URLs into different files...${RESET}"
     grep "\?" urls/main_Domain_urls.txt > urls/parameters.txt   # Filter for parameters
     grep "\.js" urls/main_Domain_urls.txt > urls/js_files.txt   # Filter for JS files
 
-    # Gxss to check for reflected parameters
-    echo -e "${GREEN}[*] Checking for reflected parameters using Gxss...${RESET}"
-    cat urls/parameters.txt | Gxss | tee urls/reflected_parameters.txt
+    # Gxss check if the flag is provided
+    if [ "$GXSS_FLAG" == "-g" ]; then
+        echo -e "${GREEN}[*] Checking for reflected parameters using Gxss...${RESET}"
+        cat urls/parameters.txt | Gxss | tee urls/reflected_parameters.txt
+    fi
 
     echo -e "${GREEN}[*] Results saved in urls directory:${RESET}"
     echo " - All URLs: urls/main_Domain_urls.txt"
     echo " - Parameters: urls/parameters.txt"
     echo " - JS Files: urls/js_files.txt"
-    echo " - Reflected Parameters: urls/reflected_parameters.txt"
+    if [ "$GXSS_FLAG" == "-g" ]; then
+        echo " - Reflected Parameters: urls/reflected_parameters.txt"
+    fi
 fi
 
 # Step 9: Check URLs from httpx_200.txt using gau and waybackurls if the check flag is provided
-if [ "$CHECK_FLAG" == "-c" ] || [ "$URL_FLAG" == "-c" ]; then
+if [ "$CHECK_FLAG" == "-c" ]; then
     echo -e "${GREEN}[*] Checking URLs in httpx_200.txt with gau and waybackurls...${RESET}"
 
     # Initialize output files
@@ -107,6 +124,11 @@ if [ "$CHECK_FLAG" == "-c" ] || [ "$URL_FLAG" == "-c" ]; then
     > urls/waybackurls_results.txt
     > urls/parameters_for_all_domains.txt
     > urls/js_files_for_all_domains.txt
+
+    if [ ! -f httpx_200.txt ]; then
+        echo -e "${RED}Error: httpx_200.txt does not exist. Please run the script with no flags first.${RESET}"
+        exit 1
+    fi
 
     while read -r url; do
         gau "$url" >> urls/gau_results.txt
@@ -118,11 +140,13 @@ if [ "$CHECK_FLAG" == "-c" ] || [ "$URL_FLAG" == "-c" ]; then
 
     # Separate parameters and JS files from combined URLs
     grep "\?" urls/all_domains_urls.txt > urls/parameters_for_all_domains.txt   # Filter for parameters
-    grep "\.js" urls/all_domains_urls.txt >  urls/js_files_for_all_domains.txt   # Filter for JS files
+    grep "\.js" urls/all_domains_urls.txt > urls/js_files_for_all_domains.txt   # Filter for JS files
 
-    # Gxss to check for reflected parameters
-    echo -e "${GREEN}[*] Checking for reflected parameters using Gxss...${RESET}"
-    cat urls/parameters_for_all_domains.txt | Gxss >  urls/reflected_parameters_from_check.txt
+    # Gxss check if the flag is provided
+    if [ "$GXSS_FLAG" == "-g" ]; then
+        echo -e "${GREEN}[*] Checking for reflected parameters using Gxss...${RESET}"
+        cat urls/parameters_for_all_domains.txt | Gxss > urls/reflected_parameters_from_check.txt
+    fi
 
     echo -e "${GREEN}[*] Results saved in urls directory:${RESET}"
     echo " - All URLs: urls/all_domains_urls.txt"
@@ -130,7 +154,9 @@ if [ "$CHECK_FLAG" == "-c" ] || [ "$URL_FLAG" == "-c" ]; then
     echo " - Waybackurls results: urls/waybackurls_results.txt"
     echo " - Parameters from check: urls/parameters_for_all_domains.txt"
     echo " - JS Files from check: urls/js_files_for_all_domains.txt"
-    echo " - Reflected Parameters: urls/reflected_parameters_from_check.txt"
+    if [ "$GXSS_FLAG" == "-g" ]; then
+        echo " - Reflected Parameters: urls/reflected_parameters_from_check.txt"
+    fi
 fi
 
 echo -e "${GREEN}[*] All results saved in ${TARGET_DOMAIN}_recon_results${RESET}"
