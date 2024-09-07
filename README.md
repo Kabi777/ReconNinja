@@ -1,54 +1,49 @@
 
+# KABI_777 RECON TOOL
 
-# KABI_777 Recon Tool
-
-## Description
-KABI_777 is a powerful reconnaissance tool designed for security professionals and penetration testers. It automates the process of gathering subdomain information, checking HTTP status codes, and retrieving URLs, parameters, and JavaScript files from target domains. The tool also includes features for checking reflected parameters for potential vulnerabilities.
+KABI_777 is a reconnaissance tool designed to perform various subdomain and URL discovery tasks efficiently. It integrates several tools like Sublist3r, Subfinder, Assetfinder, HTTPX, and Gxss for a comprehensive reconnaissance process.
 
 ## Features
-- **Subdomain Enumeration**: Uses tools like Sublist3r, Subfinder, and Assetfinder to gather subdomains.
-- **HTTP Status Checking**: Checks the HTTP status codes of discovered subdomains.
-- **URL Retrieval**: Fetches all URLs using `gau` and `waybackurls`.
-- **Parameter Filtering**: Separates URLs with parameters and JavaScript files into different files.
-- **Account Takeover Checks**: Uses Subzy to check for account takeover vulnerabilities.
-- **Reflected Parameter Checking**: Utilizes Gxss to identify reflected parameters in URLs.
+
+- Discover subdomains using Sublist3r, Subfinder, and Assetfinder.
+- Check HTTP status codes of discovered subdomains.
+- Fetch all URLs for the main domain using the `-u` flag.
+- Check URLs from the `httpx_200.txt` file using the `-c` fla
+- Filter for parameters and JavaScript files.
+- Check for reflected parameters using Gxss.
 
 ## Installation
 
-1. **Clone the repository**:
+1. Clone this repository:
    ```bash
    git clone https://github.com/yourusername/Torru.git
-   cd Toruu
    ```
-
-2. **Install required tools**: Ensure you have the following tools installed:
-   - `Sublist3r`
-   - `Subfinder`
-   - `Assetfinder`
-   - `httpx`
-   - `gau`
-   - `waybackurls`
-   - `Subzy`
-   - `Gxss`
-
-3. **Make the script executable**:
+2. Change to the project directory:
+   ```bash
+   cd Torru
+   ```
+3. Make the script executable:
    ```bash
    chmod +x sub.sh
    ```
 
 ## Usage
-Run the tool with the following syntax:
+
+To use the KABI_777 recon tool, run the following command:
+
 ```bash
 ./sub.sh <domain> [-u] [-c]
 ```
 
 ### Arguments
+
 - `<domain>`: The target domain to perform reconnaissance on.
-- `-u`: Fetch and filter all URLs using `gau` and `waybackurls`.
-- `-c`: Check all URLs from `httpx_200.txt` with `gau` and `waybackurls`.
+- `-u`: Fetch and filter all URLs for the main domain using gau and waybackurls.
+- `-c`: Check all URLs from `httpx_200.txt` using gau and waybackurls.
 
 ### Examples
-- Basic reconnaissance:
+
+- Run basic reconnaissance:
   ```bash
   ./sub.sh example.com
   ```
@@ -65,17 +60,25 @@ Run the tool with the following syntax:
   ./sub.sh example.com -u -c
   ```
 
-## Results
-All results will be saved in a directory named `<domain>_recon_results`, with URL-related results stored in a separate `urls` directory. 
+## Output
+
+Results are saved in a directory named `<domain>_recon_results`, with URLs saved in a separate `urls` subdirectory. 
+
+### URL Results
+
+When using the `-u` flag, all URLs for the main domain will be fetched and saved in the `urls/main_Domain_urls.txt` file. Additionally, parameters and JavaScript files will be filtered and saved in separate files:
+
+- All URLs: `urls/main_Domain_urls.txt`
+- Parameters: `urls/parameters.txt`
+- JavaScript Files: `urls/js_files.txt`
+- Reflected Parameters: `urls/reflected_parameters.txt`
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-## Author
-KABI_777
 ```
 
-Feel free to modify any sections to better fit your tool or personal style!￼Enter
+### Notes:
+- Replace `yourusername` with your actual GitHub username in the clone command.
+- Make sure to update any additional sections as necessary based on your tool's functionality.
