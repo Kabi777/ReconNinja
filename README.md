@@ -1,7 +1,7 @@
 
-# KABI_777 RECON TOOL
+# ReconNinja RECON TOOL
 
-KABI_777 is a reconnaissance tool designed to perform various subdomain and URL discovery tasks efficiently. It integrates several tools like Sublist3r, Subfinder, Assetfinder, HTTPX, and Gxss for a comprehensive reconnaissance process.
+ReconNinja is a reconnaissance tool designed to perform various subdomain and URL discovery tasks efficiently. It integrates several tools like Sublist3r, Subfinder, Assetfinder, HTTPX, and Gxss for a comprehensive reconnaissance process.
 
 ## Features
 
@@ -24,7 +24,7 @@ KABI_777 is a reconnaissance tool designed to perform various subdomain and URL 
    ```
 3. Make the script executable:
    ```bash
-   chmod +x sub.sh
+   chmod +x ReconNinja.sh
    ```
 
 ## Usage
@@ -32,7 +32,7 @@ KABI_777 is a reconnaissance tool designed to perform various subdomain and URL 
 To use the KABI_777 recon tool, run the following command:
 
 ```bash
-./sub.sh <domain> [-u] [-c]
+./ReconNinja.sh <domain> [-u] [-c]
 ```
 
 ### Arguments
@@ -45,19 +45,19 @@ To use the KABI_777 recon tool, run the following command:
 
 - Run basic reconnaissance:
   ```bash
-  ./sub.sh example.com
+  ./ReconNinja.sh example.com
   ```
 - Run reconnaissance and fetch URLs:
   ```bash
-  ./sub.sh example.com -u
+  ./ReconNinja.sh example.com -u
   ```
 - Check URLs from `httpx_200.txt`:
   ```bash
-  ./sub.sh example.com -c
+  ./ReconNinja.sh example.com -c
   ```
 - Run reconnaissance, fetch URLs, and check them:
   ```bash
-  ./sub.sh example.com -u -c
+  ./ReconNinja.sh example.com -u -c
   ```
 
 ## Output
@@ -73,12 +73,3 @@ When using the `-u` flag, all URLs for the main domain will be fetched and saved
 - JavaScript Files: `urls/js_files.txt`
 - Reflected Parameters: `urls/reflected_parameters.txt`
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-```
-
-### Notes:
-- Replace `yourusername` with your actual GitHub username in the clone command.
-- Make sure to update any additional sections as necessary based on your tool's functionality.
