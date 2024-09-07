@@ -21,7 +21,7 @@ ReconNinja is a powerful reconnaissance tool designed for penetration testers an
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ReconNinja.git
+   git clone https://github.com/kabi777/ReconNinja.git
    ```
    ``` bash
    cd ReconNinja
