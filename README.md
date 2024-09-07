@@ -51,7 +51,7 @@ To use the KABI_777 recon tool, run the following command:
   ```bash
   ./ReconNinja.sh example.com -u
   ```
-- Check URLs from `httpx_200.txt`:
+-  Check URLs from domains in the `httpx_200.txt` file.:
   ```bash
   ./ReconNinja.sh example.com -c
   ```
