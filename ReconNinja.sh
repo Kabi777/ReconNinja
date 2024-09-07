@@ -25,14 +25,13 @@ if [ $# -eq 0 ]; then
     echo ""
     echo -e "${GREEN}Arguments:${RESET}"
     echo "  <domain>  The target domain to perform reconnaissance on."
-    echo "  -u        Fetch and filter all URLs using gau and waybackurls."
-    echo "  -c        Check all URLs from httpx_200.txt with gau and waybackurls."
+    echo "  -u        Fetch main domain urls and filter all URLs using gau and waybackurls."
+    echo "  -c        Check all domain from httpx_200.txt with gau and waybackurls."
     echo ""
     echo -e "${CYAN}Examples:${RESET}"
     echo "  $0 example.com            # Run basic reconnaissance."
-    echo "  $0 example.com -u         # Run reconnaissance and fetch URLs."
-    echo "  $0 example.com -c         # Check URLs from httpx_200.txt."
-    echo "  $0 example.com -u -c      # Run reconnaissance, fetch URLs, and check them."
+    echo "  $0 example.com -u         # Run reconnaissance and fetch urls for main domain"
+    echo "  $0 example.com -c         # fetch URLs for all domains from httpx_200.txt."
     exit 1
 fi
 
