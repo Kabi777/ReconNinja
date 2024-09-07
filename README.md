@@ -9,7 +9,7 @@ ReconNinja is a powerful reconnaissance tool designed for penetration testers an
 - [Usage](#usage)
 - [Examples](#examples)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Features
 - Collects subdomains using `Sublist3r`, `Subfinder`, and `Assetfinder`.
@@ -78,11 +78,3 @@ Run the script with the following command:
 ## Contributing
 Contributions are welcome! Please create an issue or submit a pull request for any improvements or new features.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-```
-
-### Customization
-- Replace `yourusername` in the Git clone command with your actual GitHub username.
-- You can add any additional instructions or features you may want to highlight.
