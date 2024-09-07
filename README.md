@@ -64,10 +64,16 @@ Run the script with the following command:
   ```bash
   ./recon_ninja.sh example.com -c
   ```
-- Perform Gxss check on collected parameters:
+ - Perform Gxss check on collected parameters from main domains:
   ```bash
-  ./recon_ninja.sh example.com -g
+  ./recon_ninja.sh example.com -u -g
   ```
+
+- Perform Gxss check on collected parameters from all domains:
+  ```bash
+  ./recon_ninja.sh example.com -c -g 
+  ```
+  
 
 ## Contributing
 Contributions are welcome! Please create an issue or submit a pull request for any improvements or new features.
