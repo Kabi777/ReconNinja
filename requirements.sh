@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Update package lists
-sudo apt-get update
+
 
 # Install jq for JSON processing
 if ! command -v jq &> /dev/null; then
