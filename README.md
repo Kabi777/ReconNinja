@@ -35,6 +35,12 @@ ReconNinja is a powerful reconnaissance tool designed for penetration testers an
    - `gau`
    - `waybackurls`
    - `Gxss`
+   - by do this command
+   ```
+   chmod +x requirements.sh
+   ```
+   ```
+   ./requirements.sh
 
 3. Make the script executable:
    ```bash
