@@ -35,6 +35,7 @@ ReconNinja is a powerful reconnaissance tool designed for penetration testers an
    - `gau`
    - `waybackurls`
    - `Gxss`
+   - `jq`
    - by do this command
    ```
    chmod +x requirements.sh
