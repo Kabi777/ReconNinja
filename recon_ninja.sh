@@ -118,7 +118,7 @@ if [ "$URL_FLAG" == "-u" ]; then
     # Gxss check if the flag is provided
     if [ "$GXSS_FLAG" == "-g" ]; then
         echo -e "${GREEN}[*] Checking for reflected parameters using Gxss...${RESET}"
-        cat urls/parameters.txt | Gxss | tee urls/reflected_parameters.txt
+        cat urls/parameters.txt | Gxss > urls/reflected_parameters.txt
     fi
 
     echo -e "${GREEN}[*] Results saved in urls directory:${RESET}"
