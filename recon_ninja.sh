@@ -42,6 +42,18 @@ CHECK_FLAG=""
 GXSS_FLAG=""
 TARGET_DOMAIN=""
 
+# Show help if -h is used
+if [ "$1" == "-h" ]; then
+    echo "Usage: $0 <domain> [options]"
+    echo ""
+    echo "Options:"
+    echo "  -u    Fetch URLs for main domain using gau and waybackurls."
+    echo "  -c    Check domains using httpx_200.txt file and fetch URLs."
+    echo "  -g    Perform Gxss reflected XSS check."
+    echo "  -h    Show this help message."
+    exit 0
+fi
+
 # Loop through arguments to catch flags
 while [ $# -gt 0 ]; do
   case "$1" in
