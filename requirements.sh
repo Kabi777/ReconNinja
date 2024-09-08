@@ -48,4 +48,4 @@ if ! command -v jq &> /dev/null; then
     echo "Installing jq..."
     sudo apt-get install -y jq
 fi
-echo "All tools are installed."￼Enter
+echo "All tools are installed."
