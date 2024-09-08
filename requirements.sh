@@ -2,11 +2,7 @@
 
 
 
-# Install jq for JSON processing
-if ! command -v jq &> /dev/null; then
-    echo "Installing jq..."
-    sudo apt-get install -y jq
-fi
+
 
 # Install tools if not installed
 echo "Checking and installing required tools..."
@@ -47,4 +43,9 @@ if ! command -v subzy &> /dev/null; then
     go install -v github.com/lukasikic/subzy@latest
 fi
 
+# Install jq for JSON processing
+if ! command -v jq &> /dev/null; then
+    echo "Installing jq..."
+    sudo apt-get install -y jq
+fi
 echo "All tools are installed."￼Enter
