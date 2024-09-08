@@ -74,11 +74,11 @@ mkdir -p "urls"
 
 # Step 1: Sublist3r
 echo -e "${GREEN}[*] Running Sublist3r...${RESET}"
-sublist3r -d "$TARGET_DOMAIN" > sublist3r_results.txt
+sublist3r -d "$TARGET_DOMAIN" -o sublist3r_results.txt
 
 # Step 2: Subfinder
 echo -e "${GREEN}[*] Running Subfinder...${RESET}"
-subfinder -d "$TARGET_DOMAIN" > subfinder_results.txt
+subfinder -d "$TARGET_DOMAIN" -o subfinder_results.txt
 # Fetch subdomains from crt.sh
 echo -e "${GREEN}[*] Fetching subdomains from crt.sh...${RESET}"
 curl -s "https://crt.sh/?q=%.$TARGET_DOMAIN&output=json" | jq -r '.[].name_value' | sort -u > crtsh_results.txt
