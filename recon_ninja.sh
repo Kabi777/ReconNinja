@@ -67,6 +67,9 @@ sublist3r -d "$TARGET_DOMAIN" > sublist3r_results.txt
 # Step 2: Subfinder
 echo -e "${GREEN}[*] Running Subfinder...${RESET}"
 subfinder -d "$TARGET_DOMAIN" > subfinder_results.txt
+# Fetch subdomains from crt.sh
+echo -e "${GREEN}[*] Fetching subdomains from crt.sh...${RESET}"
+curl -s "https://crt.sh/?q=%.$TARGET_DOMAIN&output=json" | jq -r '.[].name_value' | sort -u > crtsh_results.txt
 
 # Step 3: Assetfinder
 echo -e "${GREEN}[*] Running Assetfinder...${RESET}"
@@ -74,7 +77,7 @@ assetfinder --subs-only "$TARGET_DOMAIN" > assetfinder_results.txt
 
 # Step 4: Combine results and filter unique entries
 echo -e "${GREEN}[*] Combining results...${RESET}"
-cat sublist3r_results.txt subfinder_results.txt assetfinder_results.txt | sort -u > all_unique_subdomains.txt
+cat sublist3r_results.txt crtsh_results.txt subfinder_results.txt assetfinder_results.txt | sort -u > all_unique_subdomains.txt
 
 # Step 5: Use httpx to check HTTP status and get titles
 echo -e "${GREEN}[*] Checking HTTP status...${RESET}"
