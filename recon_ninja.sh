@@ -42,6 +42,9 @@ CHECK_FLAG=""
 GXSS_FLAG=""
 TARGET_DOMAIN=""
 
+# API Keys
+apikey_securitytrails=""
+
 # Show help if -h is used
 if [ "$1" == "-h" ]; then
     echo "Usage: $0 <domain> [options]"
@@ -86,10 +89,14 @@ curl -s "https://crt.sh/?q=%.$TARGET_DOMAIN&output=json" | jq -r '.[].name_value
 # Step 3: Assetfinder
 echo -e "${GREEN}[*] Running Assetfinder...${RESET}"
 assetfinder --subs-only "$TARGET_DOMAIN" > assetfinder_results.txt
+# Fetching subdomains from securitytrails
+echo -e "${GREEN}[*] Fetching subdomains from securitytrails...${RESET}"
+curl -s --request GET --url "https://api.securitytrails.com/v1/domain/$TARGET_DOMAIN/subdomains?children_only=false&include_inactive=true" \
+--header "APIKEY: $apikey_securitytrails" --header "accept: application/json" | jq -r ".subdomains[] + \".$TARGET_DOMAIN\"" | sort -u > securitytrails_results.txt
 
 # Step 4: Combine results and filter unique entries
 echo -e "${GREEN}[*] Combining results...${RESET}"
-cat sublist3r_results.txt crtsh_results.txt subfinder_results.txt assetfinder_results.txt | sort -u > all_unique_subdomains.txt
+cat sublist3r_results.txt crtsh_results.txt subfinder_results.txt assetfinder_results.txt securitytrails_results.txt | sort -u > all_unique_subdomains.txt
 
 # Step 5: Use httpx to check HTTP status and get titles
 echo -e "${GREEN}[*] Checking HTTP status...${RESET}"
