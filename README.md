@@ -1,5 +1,5 @@
 
-# ReconNinja Tool
+# ReconNinja Script 
 
 ReconNinja is a powerful reconnaissance tool designed for penetration testers and security researchers. It automates the collection of subdomains, URLs, and parameters from a target domain, helping users to identify potential vulnerabilities.
 
